@@ -15,6 +15,7 @@ const FormSchema = z.object({
 });
 
 const CreateNoteSchema = FormSchema.omit({ id: true, userId: true });
+const UpdateNoteSchema = FormSchema.omit({ id: true, userId: true });
 
 export async function createNote(formData: FormData) {
   const { title, content } = CreateNoteSchema.parse({
@@ -25,6 +26,18 @@ export async function createNote(formData: FormData) {
   const userId = "410544b2-4001-4271-9855-fec4b6a6442a";
 
   await sql`INSERT INTO notes (title, content, user_id) VALUES (${title}, ${content}, ${userId})`;
+
+  revalidatePath("/notes");
+  redirect("/notes");
+}
+
+export async function updateNote(id: string, formData: FormData) {
+  const { title, content } = UpdateNoteSchema.parse({
+    title: formData.get("title"),
+    content: formData.get("content"),
+  });
+
+  await sql`UPDATE notes SET title = ${title}, content = ${content} WHERE id = ${id}`;
 
   revalidatePath("/notes");
   redirect("/notes");

@@ -21,6 +21,9 @@ export default async function Page() {
             <tr key={note.id}>
               <td className="p-4">{note.title}</td>
               <td className="p-4">{note.content}</td>
+              <td className="p-4">
+                <Link href={`/notes/${note.id}/edit`}>Edit</Link>
+              </td>
             </tr>
           ))}
         </tbody>
