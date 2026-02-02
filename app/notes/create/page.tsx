@@ -1,24 +1,10 @@
-import { createNote } from "@/app/lib/actions";
+import CreateNoteForm from "./create-form";
 
 export default async function Page() {
   return (
-    <div>
+    <div className="max-w-md mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">Create Note</h1>
-
-      <form action={createNote}>
-        <input
-          name="title"
-          type="text"
-          placeholder="Title"
-          className="border border-gray-200 rounded p-2"
-        />
-        <textarea
-          name="content"
-          placeholder="Content"
-          className="border border-gray-200 rounded p-2"
-        ></textarea>
-        <button type="submit">Create</button>
-      </form>
+      <CreateNoteForm />
     </div>
   );
 }

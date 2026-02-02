@@ -1,6 +1,6 @@
-import { updateNote } from "@/app/lib/actions";
 import { fetchNote } from "@/app/lib/data";
 import { notFound } from "next/navigation";
+import EditNoteForm from "./edit-form";
 
 export default async function Page({
   params,
@@ -14,28 +14,10 @@ export default async function Page({
     return notFound();
   }
 
-  const updateNoteWithId = updateNote.bind(null, id);
-
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Create Note</h1>
-
-      <form action={updateNoteWithId}>
-        <input
-          name="title"
-          type="text"
-          placeholder="Title"
-          defaultValue={note.title}
-          className="border border-gray-200 rounded p-2"
-        />
-        <textarea
-          name="content"
-          placeholder="Content"
-          defaultValue={note.content}
-          className="border border-gray-200 rounded p-2"
-        ></textarea>
-        <button type="submit">Update</button>
-      </form>
+    <div className="max-w-md mx-auto mt-10">
+      <h1 className="text-2xl font-bold mb-4">Update Note</h1>
+      <EditNoteForm note={note} />
     </div>
   );
 }
