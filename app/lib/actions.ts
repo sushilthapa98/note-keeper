@@ -7,7 +7,7 @@ import postgres from "postgres";
 import z from "zod";
 import { User } from "./definition";
 import { fetchUserByEmail } from "./data";
-import { createSession } from "./session";
+import { createSession, deleteSession } from "./session";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
@@ -137,5 +137,10 @@ export async function login(prevState: LoginState, formData: FormData) {
 
   await createSession(user.id);
 
-  redirect("/notes");
+  redirect("/");
+}
+
+export async function logout() {
+  await deleteSession();
+  redirect("/login");
 }
