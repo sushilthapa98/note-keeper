@@ -1,3 +1,8 @@
+export type SessionPayload = {
+  userId: string;
+  expiresAt: Date;
+};
+
 export type User = {
   id: string;
   name: string;
@@ -9,5 +14,5 @@ export type Note = {
   id: string;
   title: string;
   content: string;
-  userId: string;
+  user_id: string;
 };

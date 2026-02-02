@@ -1,9 +1,13 @@
 "use server";
 
+import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import postgres from "postgres";
 import z from "zod";
+import { User } from "./definition";
+import { fetchUserByEmail } from "./data";
+import { createSession } from "./session";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
@@ -92,4 +96,46 @@ export async function deleteNote(id: string) {
   }
 
   revalidatePath("/notes");
+}
+
+const LoginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(1, "Password is required"),
+});
+
+export type LoginState = {
+  errors?: {
+    email?: string[];
+    password?: string[];
+  };
+  message?: string | null;
+};
+
+export async function login(prevState: LoginState, formData: FormData) {
+  const validatedFields = LoginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Failed to login",
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  const user = await fetchUserByEmail(email);
+  if (!user) {
+    return { message: "User not found" };
+  }
+
+  if (!bcrypt.compareSync(password, user.password)) {
+    return { message: "Incorrect password" };
+  }
+
+  await createSession(user.id);
+
+  redirect("/notes");
 }

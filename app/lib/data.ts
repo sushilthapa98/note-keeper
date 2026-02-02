@@ -1,12 +1,12 @@
 import postgres from "postgres";
-import { Note } from "./definition";
+import { Note, User } from "./definition";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export async function fetchNotes(userId: string) {
   try {
     const data = await sql<Note[]>`
-    SELECT id, title, content 
+    SELECT id, title, content, user_id 
     FROM notes 
     WHERE user_id = ${userId}
     ORDER BY id ASC
@@ -21,7 +21,7 @@ export async function fetchNotes(userId: string) {
 export async function fetchNote(id: string) {
   try {
     const data = await sql<Note[]>`
-    SELECT id, title, content 
+    SELECT id, title, content, user_id 
     FROM notes 
     WHERE id = ${id}
     `;
@@ -29,5 +29,19 @@ export async function fetchNote(id: string) {
   } catch (error) {
     console.error("Database error:", error);
     throw new Error("Failed to fetch note");
+  }
+}
+
+export async function fetchUserByEmail(email: string) {
+  try {
+    const data = await sql<User[]>`
+    SELECT id, name, email, password 
+    FROM users 
+    WHERE email = ${email}
+    `;
+    return data[0];
+  } catch (error) {
+    console.error("Database error:", error);
+    throw new Error("Failed to fetch user");
   }
 }
