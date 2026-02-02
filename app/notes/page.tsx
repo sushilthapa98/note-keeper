@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { fetchNotes } from "../lib/data";
 
 export default async function Page() {
@@ -7,6 +8,7 @@ export default async function Page() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Notes</h1>
+      <Link href="/notes/create">Create Note</Link>
       <table className="table-auto border-collapse border">
         <thead>
           <tr>
