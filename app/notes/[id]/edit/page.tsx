@@ -1,5 +1,6 @@
 import { updateNote } from "@/app/lib/actions";
 import { fetchNote } from "@/app/lib/data";
+import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -8,6 +9,10 @@ export default async function Page({
 }) {
   const { id } = await params;
   const note = await fetchNote(id);
+
+  if (!note) {
+    return notFound();
+  }
 
   const updateNoteWithId = updateNote.bind(null, id);
 
