@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchNotes } from "../lib/data";
+import { DeleteNote } from "../ui/notes/buttons";
 
 export default async function Page() {
   const userId = "410544b2-4001-4271-9855-fec4b6a6442a";
@@ -22,7 +23,10 @@ export default async function Page() {
               <td className="p-4">{note.title}</td>
               <td className="p-4">{note.content}</td>
               <td className="p-4">
-                <Link href={`/notes/${note.id}/edit`}>Edit</Link>
+                <div className="flex gap-2">
+                  <Link href={`/notes/${note.id}/edit`}>Edit</Link>
+                  <DeleteNote id={note.id} />
+                </div>
               </td>
             </tr>
           ))}

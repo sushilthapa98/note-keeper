@@ -42,3 +42,8 @@ export async function updateNote(id: string, formData: FormData) {
   revalidatePath("/notes");
   redirect("/notes");
 }
+
+export async function deleteNote(id: string) {
+  await sql`DELETE FROM notes WHERE id = ${id}`;
+  revalidatePath("/notes");
+}
