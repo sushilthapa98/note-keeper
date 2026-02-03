@@ -1,9 +1,15 @@
 import postgres from "postgres";
 import { Note, User } from "./definition";
+import { verifySession } from "./dal";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export async function fetchNotes(userId: string) {
+  const session = await verifySession();
+  if (!session) {
+    return null;
+  }
+
   try {
     const data = await sql<Note[]>`
     SELECT id, title, content, user_id 
@@ -19,6 +25,11 @@ export async function fetchNotes(userId: string) {
 }
 
 export async function fetchNote(id: string) {
+  const session = await verifySession();
+  if (!session) {
+    return null;
+  }
+
   try {
     const data = await sql<Note[]>`
     SELECT id, title, content, user_id 
