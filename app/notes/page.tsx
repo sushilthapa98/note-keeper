@@ -3,8 +3,7 @@ import { fetchNotes } from "../lib/data";
 import { DeleteNote } from "../ui/notes/buttons";
 
 export default async function Page() {
-  const userId = "410544b2-4001-4271-9855-fec4b6a6442a";
-  const notes = await fetchNotes(userId);
+  const notes = await fetchNotes();
 
   return (
     <div>
@@ -18,7 +17,7 @@ export default async function Page() {
           </tr>
         </thead>
         <tbody>
-          {notes.map((note) => (
+          {notes?.map((note) => (
             <tr key={note.id}>
               <td className="p-4">{note.title}</td>
               <td className="p-4">{note.content}</td>

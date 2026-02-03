@@ -4,7 +4,7 @@ import { verifySession } from "./dal";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
-export async function fetchNotes(userId: string) {
+export async function fetchNotes() {
   const session = await verifySession();
   if (!session) {
     return null;
@@ -14,7 +14,7 @@ export async function fetchNotes(userId: string) {
     const data = await sql<Note[]>`
     SELECT id, title, content, user_id 
     FROM notes 
-    WHERE user_id = ${userId}
+    WHERE user_id = ${session.userId}
     ORDER BY id ASC
     `;
     return data;
@@ -34,7 +34,7 @@ export async function fetchNote(id: string) {
     const data = await sql<Note[]>`
     SELECT id, title, content, user_id 
     FROM notes 
-    WHERE id = ${id}
+    WHERE id = ${id} AND user_id = ${session.userId}
     `;
     return data[0];
   } catch (error) {

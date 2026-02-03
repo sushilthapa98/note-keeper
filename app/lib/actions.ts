@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import postgres from "postgres";
 import z from "zod";
-import { User } from "./definition";
 import { fetchUserByEmail } from "./data";
 import { createSession, deleteSession } from "./session";
 
