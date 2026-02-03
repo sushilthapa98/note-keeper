@@ -27,7 +27,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log(credentials);
         const { email, password } = credentials;
 
         // Use your custom logic to verify credentials (eg. external api call, db query)

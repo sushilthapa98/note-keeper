@@ -1,31 +1,16 @@
 "use client";
 
+import { useActionState } from "react";
+import { login, LoginState } from "../lib/actions";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
 
 export default function LoginForm() {
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (formData: FormData) => {
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    if (!email || !password) {
-      setError("Please enter email and password");
-      return;
-    }
-
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/",
-      // redirect: false,
-    });
-  };
+  const initialState: LoginState = { message: null, errors: {} };
+  const [state, formAction] = useActionState(login, initialState);
 
   return (
-    <form action={handleSubmit}>
+    <form action={formAction}>
       <div className="mb-4">
         <input
           type="email"
@@ -40,7 +25,7 @@ export default function LoginForm() {
           className="w-full border border-gray-200 rounded p-2"
         />
       </div>
-      {error && <p className="text-red-500">{error}</p>}
+      {state.message && <p className="text-red-500">{state.message}</p>}
       <button
         type="submit"
         className="w-full bg-blue-500 text-white px-4 py-2 rounded mb-4"
