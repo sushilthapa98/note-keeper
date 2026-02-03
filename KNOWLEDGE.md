@@ -14,3 +14,14 @@
 - You can use library like 'jose' to create and verify JWT tokens
 - Use cookies() in nextjs to create and update cookies
 - Note: cookies are sent in every http request
+
+## How to use Next Auth
+
+- Create route.ts file in app/api/auth/[...nextauth]/route.ts to catch all auth related requests
+- Create auth.ts file in root directory and configure auth with providers, callbacks, etc.
+- You can use providers like Google, Credentials, etc.
+- use signIn method to sign in user along with options (eg. signIn('google', { redirectTo: '/dashboard' }))
+- Use signIn method to handle custom logic for database operation when using provider (eg. creating user in database after google sign in)
+- Create a middleware.ts file in app directory to protect routes
+- Use auth() in server components, server actions, route handlers to get session
+- Use useSession() in client components to get session (for this SessionProvider must be wrapped around the app, it must be a client component so separate Provider client component is required to use it in layout file)
