@@ -88,13 +88,7 @@ export async function updateNote(
 }
 
 export async function deleteNote(id: string) {
-  try {
-    await sql`DELETE FROM notes WHERE id = ${id}`;
-  } catch (error) {
-    console.error("Database error:", error);
-    return { message: "Failed to delete note" };
-  }
-
+  await sql`DELETE FROM notes WHERE id = ${id}`;
   revalidatePath("/notes");
 }
 
