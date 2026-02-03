@@ -131,7 +131,7 @@ export async function login(prevState: LoginState, formData: FormData) {
 
   await createSession(user.id);
 
-  redirect("/");
+  redirect("/notes");
 }
 
 export async function logout() {
