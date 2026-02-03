@@ -151,3 +151,18 @@ export async function verifyCredentials(email: string, password: string) {
 
   return user;
 }
+
+export async function createUser(
+  email: string,
+  name: string,
+  password?: string,
+) {
+  try {
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : "";
+    await sql`INSERT INTO users (email, name, password) VALUES (${email}, ${name}, ${hashedPassword})`;
+    return true;
+  } catch (error) {
+    console.error("Database error:", error);
+    return false;
+  }
+}
