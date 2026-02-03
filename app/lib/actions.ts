@@ -7,6 +7,7 @@ import postgres from "postgres";
 import z from "zod";
 import { fetchUserByEmail } from "./data";
 import { createSession, deleteSession } from "./session";
+import { auth } from "@/auth";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
@@ -29,6 +30,11 @@ export type State = {
 };
 
 export async function createNote(prevState: State, formData: FormData) {
+  const session = await auth();
+  if (!session) {
+    return { message: "Unauthorized" };
+  }
+
   const validatedFields = CreateNoteSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
@@ -43,10 +49,8 @@ export async function createNote(prevState: State, formData: FormData) {
 
   const { title, content } = validatedFields.data;
 
-  const userId = "410544b2-4001-4271-9855-fec4b6a6442a";
-
   try {
-    await sql`INSERT INTO notes (title, content, user_id) VALUES (${title}, ${content}, ${userId})`;
+    await sql`INSERT INTO notes (title, content, user_id) VALUES (${title}, ${content}, ${session.user?.id})`;
   } catch (error) {
     console.error("Database error:", error);
     return { message: "Failed to create note" };
@@ -61,6 +65,11 @@ export async function updateNote(
   prevState: State,
   formData: FormData,
 ) {
+  const session = await auth();
+  if (!session) {
+    return { message: "Unauthorized" };
+  }
+
   const validatedFields = UpdateNoteSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
@@ -76,7 +85,7 @@ export async function updateNote(
   const { title, content } = validatedFields.data;
 
   try {
-    await sql`UPDATE notes SET title = ${title}, content = ${content} WHERE id = ${id}`;
+    await sql`UPDATE notes SET title = ${title}, content = ${content} WHERE id = ${id} AND user_id = ${session.user?.id}`;
   } catch (error) {
     console.error("Database error:", error);
     return { message: "Failed to update note" };
@@ -87,7 +96,11 @@ export async function updateNote(
 }
 
 export async function deleteNote(id: string) {
-  await sql`DELETE FROM notes WHERE id = ${id}`;
+  const session = await auth();
+  if (!session) {
+    return { message: "Unauthorized" };
+  }
+  await sql`DELETE FROM notes WHERE id = ${id} AND user_id = ${session.user?.id}`;
   revalidatePath("/notes");
 }
 

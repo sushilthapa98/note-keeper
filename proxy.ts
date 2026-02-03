@@ -8,7 +8,8 @@ import { NextResponse } from "next/server";
 export default auth((req: NextAuthRequest) => {
   const isLoggedIn = !!req?.auth?.user;
   const isOnLoginPage = req.nextUrl.pathname.startsWith("/login");
-  const isProtectedRoute = req.nextUrl.pathname === "/";
+  const isProtectedRoute =
+    req.nextUrl.pathname === "/" || req.nextUrl.pathname.startsWith("/notes");
 
   if (isLoggedIn && isOnLoginPage) {
     return NextResponse.redirect(new URL("/", req.url));

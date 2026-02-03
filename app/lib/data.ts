@@ -1,11 +1,16 @@
 import postgres from "postgres";
 import { Note, User } from "./definition";
 import { verifySession } from "./dal";
+import { auth } from "@/auth";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export async function fetchNotes() {
-  const session = await verifySession();
+  // const session = await verifySession();
+  // if (!session) {
+  //   return null;
+  // }
+  const session = await auth();
   if (!session) {
     return null;
   }
@@ -14,7 +19,7 @@ export async function fetchNotes() {
     const data = await sql<Note[]>`
     SELECT id, title, content, user_id 
     FROM notes 
-    WHERE user_id = ${session.userId}
+    WHERE user_id = ${session.user?.id}
     ORDER BY id ASC
     `;
     return data;
@@ -25,7 +30,11 @@ export async function fetchNotes() {
 }
 
 export async function fetchNote(id: string) {
-  const session = await verifySession();
+  // const session = await verifySession();
+  // if (!session) {
+  //   return null;
+  // }
+  const session = await auth();
   if (!session) {
     return null;
   }
@@ -34,7 +43,7 @@ export async function fetchNote(id: string) {
     const data = await sql<Note[]>`
     SELECT id, title, content, user_id 
     FROM notes 
-    WHERE id = ${id} AND user_id = ${session.userId}
+    WHERE id = ${id} AND user_id = ${session.user?.id}
     `;
     return data[0];
   } catch (error) {
