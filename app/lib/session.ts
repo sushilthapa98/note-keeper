@@ -3,7 +3,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { SessionPayload } from "./definition";
 import { cookies } from "next/headers";
 
-const secretKey = process.env.SESSION_SECRET;
+const secretKey = process.env.AUTH_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: SessionPayload) {
