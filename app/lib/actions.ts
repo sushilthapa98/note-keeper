@@ -137,3 +137,17 @@ export async function logout() {
   await deleteSession();
   redirect("/login");
 }
+
+// method to use with nextjs auth
+export async function verifyCredentials(email: string, password: string) {
+  const user = await fetchUserByEmail(email);
+  if (!user) {
+    return null;
+  }
+
+  if (!bcrypt.compareSync(password, user.password)) {
+    return null;
+  }
+
+  return user;
+}
