@@ -9,7 +9,7 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint --cache --cache-location .eslintcache",
     "lint:fix": "eslint --cache --cache-location .eslintcache --fix",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md,json,css}\""
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
