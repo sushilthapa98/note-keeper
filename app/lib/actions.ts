@@ -98,7 +98,7 @@ export async function updateNote(
 export async function deleteNote(id: string) {
   const session = await auth();
   if (!session) {
-    return { message: "Unauthorized" };
+    throw new Error("Unauthorized");
   }
   await sql`DELETE FROM notes WHERE id = ${id} AND user_id = ${session.user?.id}`;
   revalidatePath("/notes");

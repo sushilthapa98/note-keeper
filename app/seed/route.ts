@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import postgres from "postgres";
 
 const users = [
@@ -27,6 +27,7 @@ const notes = [
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function seedUsers(sql: any) {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   await sql`
@@ -52,6 +53,7 @@ async function seedUsers(sql: any) {
   return insertedUsers;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function seedNotes(sql: any) {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   await sql`
@@ -78,7 +80,7 @@ async function seedNotes(sql: any) {
 
 export async function GET() {
   try {
-    const result = await sql.begin(async (sql) => {
+    await sql.begin(async (sql) => {
       await seedUsers(sql);
       await seedNotes(sql);
     });
