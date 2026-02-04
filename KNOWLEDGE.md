@@ -25,3 +25,22 @@
 - Create a middleware.ts file in app directory to protect routes
 - Use auth() in server components, server actions, route handlers to get session
 - Use useSession() in client components to get session (for this SessionProvider must be wrapped around the app, it must be a client component so separate Provider client component is required to use it in layout file)
+
+## How to use type checking, linting and formatting
+
+- Use tsc --noEmit to check for type errors (as configuration defined in tsconfig.json)
+- Use eslint to check for lint errors (optionally add cache '--cache --cache-location .eslintcache' for performance)
+- Use eslint --fix to fix lint errors
+- Use prettier --write "\*_/_.{ts,tsx,md,json,css}" to format the code (formats based on .prettierrc file)
+
+## Using husky pre commit hook with lint-staged for better code quality
+
+- Install and setup husky
+- Add your commands in pre-commit file inside .husky
+- Add lint-staged configuration in package.json or a separate .lintstagedrc file
+- Example Script of pre-commit:
+
+```
+npm run type-check // type check in pre-commit instead defining it in lint staged to prevent errors
+npx lint-staged
+```
