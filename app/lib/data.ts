@@ -1,9 +1,9 @@
-import postgres from "postgres";
-import { Note, User } from "./definition";
-import { verifySession } from "./dal";
-import { auth } from "@/auth";
+import postgres from 'postgres';
+import { Note, User } from './definition';
+import { verifySession } from './dal';
+import { auth } from '@/auth';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function fetchNotes() {
   // const session = await verifySession();
@@ -24,8 +24,8 @@ export async function fetchNotes() {
     `;
     return data;
   } catch (error) {
-    console.error("Database error:", error);
-    throw new Error("Failed to fetch notes");
+    console.error('Database error:', error);
+    throw new Error('Failed to fetch notes');
   }
 }
 
@@ -47,8 +47,8 @@ export async function fetchNote(id: string) {
     `;
     return data[0];
   } catch (error) {
-    console.error("Database error:", error);
-    throw new Error("Failed to fetch note");
+    console.error('Database error:', error);
+    throw new Error('Failed to fetch note');
   }
 }
 
@@ -61,7 +61,7 @@ export async function fetchUserByEmail(email: string) {
     `;
     return data[0];
   } catch (error) {
-    console.error("Database error:", error);
-    throw new Error("Failed to fetch user");
+    console.error('Database error:', error);
+    throw new Error('Failed to fetch user');
   }
 }

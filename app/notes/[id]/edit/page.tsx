@@ -1,12 +1,8 @@
-import { fetchNote } from "@/app/lib/data";
-import { notFound } from "next/navigation";
-import EditNoteForm from "./edit-form";
+import { fetchNote } from '@/app/lib/data';
+import { notFound } from 'next/navigation';
+import EditNoteForm from './edit-form';
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const note = await fetchNote(id);
 

@@ -1,5 +1,5 @@
-import Image from "next/image";
-import LoginForm from "../ui/login-form";
+import Image from 'next/image';
+import LoginForm from '../ui/login-form';
 
 export default function Login() {
   return (

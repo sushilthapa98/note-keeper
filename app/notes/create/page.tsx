@@ -1,4 +1,4 @@
-import CreateNoteForm from "./create-form";
+import CreateNoteForm from './create-form';
 
 export default async function Page() {
   return (

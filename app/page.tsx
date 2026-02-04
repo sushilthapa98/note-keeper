@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { logout } from "./lib/actions";
-import { signOut } from "next-auth/react";
+import Link from 'next/link';
+import { logout } from './lib/actions';
+import { signOut } from 'next-auth/react';
 
 export default function Home() {
   return (

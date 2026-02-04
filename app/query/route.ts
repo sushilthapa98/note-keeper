@@ -1,7 +1,7 @@
-import postgres from "postgres";
-import { verifySession } from "../lib/dal";
+import postgres from 'postgres';
+import { verifySession } from '../lib/dal';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 async function listNotes() {
   const session = await verifySession();
@@ -19,7 +19,7 @@ async function listNotes() {
 export async function GET() {
   const session = await verifySession();
   if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {

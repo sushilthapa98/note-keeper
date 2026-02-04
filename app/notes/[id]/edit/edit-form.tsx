@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { State, updateNote } from "@/app/lib/actions";
-import clsx from "clsx";
+import { useActionState } from 'react';
+import { State, updateNote } from '@/app/lib/actions';
+import clsx from 'clsx';
 
 export default function EditNoteForm({
   note,
@@ -25,29 +25,18 @@ export default function EditNoteForm({
           type="text"
           placeholder="Title"
           defaultValue={note.title}
-          className={clsx(
-            "border border-gray-200 rounded p-2",
-            state.errors?.title && "border-red-500",
-          )}
+          className={clsx('border border-gray-200 rounded p-2', state.errors?.title && 'border-red-500')}
         />
         <textarea
           name="content"
           placeholder="Content"
           defaultValue={note.content}
-          className={clsx(
-            "border border-gray-200 rounded p-2",
-            state.errors?.content && "border-red-500",
-          )}
+          className={clsx('border border-gray-200 rounded p-2', state.errors?.content && 'border-red-500')}
         ></textarea>
 
-        {state.message && (
-          <p className="text-red-500 text-sm">{state.message}</p>
-        )}
+        {state.message && <p className="text-red-500 text-sm">{state.message}</p>}
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
           Update Note
         </button>
       </div>

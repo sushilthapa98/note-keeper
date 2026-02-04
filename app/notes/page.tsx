@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { fetchNotes } from "../lib/data";
-import { DeleteNote } from "../ui/notes/buttons";
+import Link from 'next/link';
+import { fetchNotes } from '../lib/data';
+import { DeleteNote } from '../ui/notes/buttons';
 
 export default async function Page() {
   const notes = await fetchNotes();
@@ -17,7 +17,7 @@ export default async function Page() {
           </tr>
         </thead>
         <tbody>
-          {notes?.map((note) => (
+          {notes?.map(note => (
             <tr key={note.id}>
               <td className="p-4">{note.title}</td>
               <td className="p-4">{note.content}</td>
