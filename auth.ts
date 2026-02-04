@@ -29,12 +29,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         const { email, password } = credentials;
-
         // Use your custom logic to verify credentials (eg. external api call, db query)
         const user = await verifyCredentials(email as string, password as string);
 
         if (user) {
-          return user; // Return user object
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            // role: user.role
+          }; // Return user object
         }
         return null; // Return null if auth fails
       },
@@ -68,7 +72,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        // extract actual user info from database (here user is the provider user info)
+        const userInfo = await fetchUserByEmail(user.email! as string);
+        if (userInfo) {
+          token.id = userInfo.id;
+          // token.name = userInfo.name; // name and email are already present in token
+          // token.email = userInfo.email;
+          // token.role = userInfo.role;
+        }
       }
       return token;
     },
